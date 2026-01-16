@@ -1,8 +1,11 @@
 name: Update Tor Relay List
 
+permissions:
+  contents: write
+
 on:
   schedule:
-    - cron: "0 * * * *"  
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -45,8 +48,9 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add relays.txt
-          git commit -m "Update Tor relay list" || exit 0
+          git diff --cached --quiet && exit 0
+          git commit -m "Update Tor relay list"
           git push

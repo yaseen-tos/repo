@@ -5,6 +5,8 @@ on:
   schedule:
     - cron: "0 * * * *"
   workflow_dispatch:
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 jobs:
   update-tor:
     runs-on: ubuntu-latest
@@ -41,6 +43,7 @@ jobs:
           git add relays.txt
           git diff --cached --quiet && exit 0
           git commit -m "Update Tor relay list"
+          git pull --rebase origin main
           git push
 
   update-vpngate:
@@ -70,4 +73,5 @@ jobs:
           git add vpn.txt
           git diff --cached --quiet && exit 0
           git commit -m "Update VPNGate list"
+          git pull --rebase origin main
           git push
